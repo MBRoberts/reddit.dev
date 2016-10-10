@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/sayhello/{name?}', function ($name = 'dude') {
-	return "Hello {$name}";
+Route::get('/uppercase/{word}', function ($word) {
+	return strtoupper($word);
+});
+
+Route::get('/increment/{num}', function ($num) {
+	return $num + 1;
+});
+
+Route::get('/add/{a}/{b}', function ($a, $b) {
+	return $a + $b;
 });
