@@ -26,3 +26,18 @@ Route::get('/increment/{num}', function ($num) {
 Route::get('/add/{a}/{b}', function ($a, $b) {
 	return $a + $b;
 });
+
+Route::get('/rolldice/{guess?}', function ($guess = 0) {
+	
+	$data['dice'] = rand(1,6);
+	$data['guess'] = $guess;
+
+	if($guess == $data['dice']) {
+		$data['result'] = 'Good Guess';
+	} else {
+		$data['result'] = 'Wrong';
+	}
+
+	return view('roll-dice')->with($data);
+
+});
