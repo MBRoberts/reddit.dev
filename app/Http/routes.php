@@ -15,29 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/uppercase/{word}', function ($word) {
-	return strtoupper($word);
-});
+Route::get('/uppercase/{word}', 'HomeController@uppercase');
 
-Route::get('/increment/{num}', function ($num) {
-	return $num + 1;
-});
+Route::get('/increment/{num}', 'HomeController@increment');
 
-Route::get('/add/{a}/{b}', function ($a, $b) {
-	return $a + $b;
-});
+Route::get('/add/{a}/{b}', 'HomeController@add');
 
-Route::get('/rolldice/{guess?}', function ($guess = 0) {
-	
-	$data['dice'] = rand(1,6);
-	$data['guess'] = $guess;
-
-	if($guess == $data['dice']) {
-		$data['result'] = 'Good Guess';
-	} else {
-		$data['result'] = 'Wrong';
-	}
-
-	return view('roll-dice')->with($data);
-
-});
+Route::get('/rolldice/{guess?}', 'HomeController@rollDice' );
