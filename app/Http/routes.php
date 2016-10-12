@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,10 +17,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/uppercase/{word}', 'HomeController@uppercase');
+Route::resource('posts','PostsController');
 
-Route::get('/increment/{num}', 'HomeController@increment');
+Route::get('orm-test', function()
+{
+	$post1 = new Post();
+	$post1->created_by = 1;
+	$post1->title = 'title';
+	$post1->url = 'url';
+	$post1->content = 'some content stuff';
+	$post1->save();
 
-Route::get('/add/{a}/{b}', 'HomeController@add');
-
-Route::get('/rolldice/{guess?}', 'HomeController@rollDice' );
+	$post2 = new Post();
+	$post2->created_by = 1;
+	$post2->title = 'title';
+	$post2->url = 'url';
+	$post2->content = 'some content stuff';
+	$post2->save();
+});
