@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Post;
+use Hash;
+use App\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class PostsController extends Controller
+class UsersController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +18,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $data['posts'] = Post::paginate(6);
-        return view('posts.index')->with($data);
+        $data['users'] = User::paginate(10);
+        return view('users.index')->with($data);
     }
 
     /**
@@ -29,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('users.create');
     }
 
     /**
@@ -41,19 +41,18 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $request->session()->flash('ERROR_MESSAGE', 'Invalid Inputs');
-        $this->validate($request, Post::$rules);
+        $this->validate($request, User::$rules);
         $request->session()->forget('ERROR_MESSAGE');
 
-        $post = new Post();
-        $post->created_by = 1;
-        $post->title = $request->input('title');
-        $post->url = $request->input('url');
-        $post->content = $request->input('content');
-        $post->save();
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
 
-        $request->session()->flash('SUCCESS_MESSAGE', 'Post was saved successfully');
+        $request->session()->flash('SUCCESS_MESSAGE', 'Welcome ' . $user->name);
 
-        return redirect()->action('PostsController@show', $post->id);
+        return redirect()->action('UsersController@index', $user->id);
     }
 
     /**
@@ -64,9 +63,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $data['post'] = Post::find($id);
-
-        return view('posts.show')->with($data);
+        $data['user'] = User::find($id);
+        return view('users.show')->with($data);
     }
 
     /**
@@ -77,8 +75,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $data['post'] = Post::find($id);
-        return view('posts.edit')->with($data);
+        $data['user'] = User::find($id);
+        return view('users.edit')->with($data);
     }
 
     /**
@@ -91,18 +89,18 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         $request->session()->flash('ERROR_MESSAGE', 'Invalid Inputs');
-        $this->validate($request, Post::$rules);
+        $this->validate($request, User::$rules);
         $request->session()->forget('ERROR_MESSAGE');
 
-        $post = Post::find($id);
-        $post->title = $request->title;
-        $post->url = $request->url;
-        $post->content = $request->content;
-        $post->save();
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        $request->session()->flash('SUCCESS_MESSAGE', 'Post was saved successfully');
+        $request->session()->flash('SUCCESS_MESSAGE', 'Update Successful');
 
-        return redirect()->action('PostsController@show', $post->id);
+        return redirect()->action('UsersController@show', $user->id);
     }
 
     /**
@@ -113,8 +111,8 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $post->delete();
-        return redirect()->action('PostsController@index');
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->action('UsersController@index');
     }
 }

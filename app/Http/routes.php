@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Route::resource('posts','PostsController');
 
+Route::resource('users', 'UsersController');
+
 Route::get('orm-test', function()
 {
 	$post1 = new Post();

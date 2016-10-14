@@ -9,6 +9,7 @@
 
 		{{-- Bootstrap Core CSS CDN--}}
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 		{{-- Footer custom css --}}
 		<link rel="stylesheet" type="text/css" href="/css/footer.css">
 		
@@ -25,9 +26,26 @@
 	<body>
 
 		@include('partials.navbar')
-
+		
+		
 		<div class="container">
+			
+			<h1 class="jumbotron text-center">@yield('header')</h1>
+			
+			@if (session()->has('SUCCESS_MESSAGE'))
+				<div class="alert alert-success text-center">
+					{{ session('SUCCESS_MESSAGE')}}
+				</div>
+			@endif
+			
+			@if (session()->has('ERROR_MESSAGE'))
+				<div class="alert alert-danger text-center">
+					{{ session('ERROR_MESSAGE')}}
+				</div>
+			@endif
+
 			@yield('content')
+
 		</div>
 		
 		@include('partials.footer')
