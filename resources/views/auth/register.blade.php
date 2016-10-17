@@ -6,12 +6,12 @@
 
 @section('content')
 	
-	<form class="text-center" method="POST" action="{{ action('PostsController@store') }}">
+	<form class="text-center" method="POST" action="{{ action('Auth\AuthController@postRegister') }}">
 
 		{!! csrf_field() !!}
 
 		<div class="form-group row">
-			<label for="name" class="col-xs-2 control-label">name:</label>
+			<label for="name" class="col-xs-2 control-label">Name:</label>
 			<div class="col-xs-10">
 				<input class="input-lg form-control" id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Full Name" autofocus>
 			</div>
@@ -39,7 +39,7 @@
 		<div class="form-group row">
 			<label for="password" class="col-xs-2 control-label">Password:</label>
 			<div class="col-xs-10">
-				<input class="input-lg form-control" type="password" id="password" name="password" value="{{ old('password') }}" placeholder="Enter Password">
+				<input class="input-lg form-control" type="password" name="password" id="password" placeholder="Enter Password">
 			</div>
 		</div>
 
@@ -50,15 +50,15 @@
 		@endif
 
 		<div class="form-group row">
-			<label for="confirm_password" class="col-xs-2 control-label">Confirm Password:</label>
+			<label for="password_confirmation" class="col-xs-2 control-label">Confirm Password:</label>
 			<div class="col-xs-10">
-				<input class="input-lg form-control" type="password" id="confirm_password" name="confirm_password" value="{{ old('confirm_password') }}" placeholder="Enter Confirm Password">
+				<input class="input-lg form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
 			</div>
 		</div>
 
-		@if($errors->has('confirm_password'))
+		@if($errors->has('password_confirmation'))
 			<div class="alert alert-danger col-xs-10 col-xs-offset-2">
-				{{ $errors->first('confirm_password') }}
+				{{ $errors->first('password_confirmation') }}
 			</div>
 		@endif
 

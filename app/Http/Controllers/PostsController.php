@@ -8,8 +8,14 @@ use App\Models\Post;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Log;
+
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -45,11 +51,12 @@ class PostsController extends Controller
         $request->session()->forget('ERROR_MESSAGE');
 
         $post = new Post();
-        $post->created_by = 1;
+        $post->created_by = $request->user()->id;
         $post->title = $request->input('title');
         $post->url = $request->input('url');
         $post->content = $request->input('content');
         $post->save();
+        Log::info('Created Post: ' . $post);
 
         $request->session()->flash('SUCCESS_MESSAGE', 'Post was saved successfully');
 
@@ -64,8 +71,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $data['post'] = Post::find($id);
-
+        $data['post'] = Post::findOrFail($id);
         return view('posts.show')->with($data);
     }
 
@@ -77,7 +83,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $data['post'] = Post::find($id);
+        $data['post'] = Post::findOrFail($id);
         return view('posts.edit')->with($data);
     }
 
@@ -94,11 +100,12 @@ class PostsController extends Controller
         $this->validate($request, Post::$rules);
         $request->session()->forget('ERROR_MESSAGE');
 
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->title = $request->title;
         $post->url = $request->url;
         $post->content = $request->content;
         $post->save();
+        Log::info('Updated Post: ' . $post);
 
         $request->session()->flash('SUCCESS_MESSAGE', 'Post was saved successfully');
 
@@ -113,7 +120,7 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->action('PostsController@index');
     }

@@ -21,6 +21,7 @@ class AuthController extends Controller
     |
     */
 
+
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
@@ -31,6 +32,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+        $this->redirectPath = action('PostsController@index');
     }
 
     /**

@@ -14,7 +14,7 @@
 
 		<div class="col-md-9">
 			<div class="thumbnail show-box">
-				<img src="http://placehold.it/850x400">
+				<img src="{{ $post->image }}">
 				<div class="caption-full">
 					<h4 class="pull-right"><b>"{{ $post->title }}"</b></h4>
 					<h4><a href="{{ $post->url }}">View Project</a></h4>

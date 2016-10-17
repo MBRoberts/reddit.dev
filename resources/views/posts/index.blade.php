@@ -21,7 +21,7 @@
 		@foreach($posts as $post) 
 			<div class="col-sm-5 col-lg-4 col-md-3">
 				<div class="thumbnail box">
-					<img class="imgSize" src="http://placehold.it/300x200 ">
+					<img src="{{ $post->image }}" />
 					<h2>"{{ substr($post->title, 0, 40) . "..." }}"</h2>
 					<p>Posted {{$post->created_at->diffForHumans()}}</p>
 					<hr>

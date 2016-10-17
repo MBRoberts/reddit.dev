@@ -11,6 +11,10 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,39 +27,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('users.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $request->session()->flash('ERROR_MESSAGE', 'Invalid Inputs');
-        $this->validate($request, User::$rules);
-        $request->session()->forget('ERROR_MESSAGE');
-
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
-
-        $request->session()->flash('SUCCESS_MESSAGE', 'Welcome ' . $user->name);
-
-        return redirect()->action('UsersController@index', $user->id);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -63,7 +34,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $data['user'] = User::find($id);
+        $data['user'] = User::findOrFail($id);
         return view('users.show')->with($data);
     }
 
@@ -75,7 +46,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $data['user'] = User::find($id);
+        $data['user'] = User::findOrFail($id);
         return view('users.edit')->with($data);
     }
 
@@ -92,11 +63,12 @@ class UsersController extends Controller
         $this->validate($request, User::$rules);
         $request->session()->forget('ERROR_MESSAGE');
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+        Log::info('Updated User: ' . $user);
 
         $request->session()->flash('SUCCESS_MESSAGE', 'Update Successful');
 
@@ -111,7 +83,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->delete();
         return redirect()->action('UsersController@index');
     }

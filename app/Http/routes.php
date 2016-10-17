@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,27 +14,17 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostsController@index');
 
 Route::resource('posts','PostsController');
 
-Route::resource('users', 'UsersController');
+Route::resource('users', 'UsersController', ['except' => ['create', 'store']]);
 
-Route::get('orm-test', function()
-{
-	$post1 = new Post();
-	$post1->created_by = 1;
-	$post1->title = 'title';
-	$post1->url = 'url';
-	$post1->content = 'some content stuff';
-	$post1->save();
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-	$post2 = new Post();
-	$post2->created_by = 1;
-	$post2->title = 'title';
-	$post2->url = 'url';
-	$post2->content = 'some content stuff';
-	$post2->save();
-});
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');

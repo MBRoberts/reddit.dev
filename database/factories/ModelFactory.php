@@ -25,6 +25,7 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
 		'title' => $faker->words(6, true),
 		'url' => $faker->url,
 		'content' => $faker->paragraphs(3, true),
-		'created_by' => App\User::all()->random()->id
+		'created_by' => App\User::all()->random()->id,
+		'image' => $faker->imageUrl($width = 850, $height = 400)
 	];
 });
