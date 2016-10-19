@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Post;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use App\Models\Vote;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Illuminate\Support\Facades\Log;
 
 class PostsController extends Controller
 {
+    
+
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
@@ -22,9 +26,11 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['posts'] = Post::paginate(6);
+        $data['request'] = $request;
+        $data['posts'] = (isset($request->search)) ? Post::search($request->search)->paginate(6) :  Post::with('user')->paginate(6);
+
         return view('posts.index')->with($data);
     }
 
@@ -46,6 +52,8 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         $request->session()->flash('ERROR_MESSAGE', 'Invalid Inputs');
         $this->validate($request, Post::$rules);
         $request->session()->forget('ERROR_MESSAGE');
@@ -56,6 +64,19 @@ class PostsController extends Controller
         $post->url = $request->input('url');
         $post->content = $request->input('content');
         $post->save();
+        if (!empty($request->file('image'))) {
+            if ($request->file('image')->isValid()) {
+
+                $post->image = '/img/post-images/' . $post->id . $request->file('image')->getClientOriginalName();
+
+                $request->file('image')->move(
+                    base_path() . '/public/img/post-images/', $post->image
+                );  
+            };
+        };
+
+        $post->save();
+
         Log::info('Created Post: ' . $post);
 
         $request->session()->flash('SUCCESS_MESSAGE', 'Post was saved successfully');
@@ -121,7 +142,35 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        $vote = Vote::where('post_id', '=', $id);
+        $vote->delete();
         $post->delete();
-        return redirect()->action('PostsController@index');
+        return back();
     }
+
+    public function setVote(Request $request) {
+
+        $vote = Vote::with('post')->firstOrCreate([
+            'post_id' => $request->input('post_id'),
+            'user_id' => $request->user()->id
+        ]);
+
+        $vote->vote = $request->input('vote');
+        $vote->save();
+
+        $post = $vote->post;
+
+        $post->upVotes = $post->upVotes();
+        $post->downVotes = $post->downVotes();
+
+        $data = [
+            'upVotes' => $post->upVotes,
+            'downVotes' => $post->downVotes,
+            'vote' => $vote->vote
+        ];
+
+        return back()->with($data);
+    }
+
+
 }

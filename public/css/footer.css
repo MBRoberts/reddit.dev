@@ -1,5 +1,10 @@
+body {
+	background-image: url(/img/pattern.png);
+	background-attachment: fixed;
+}
+
 .box {
-	height: 575px;
+	height: 565px;
 	overflow: hidden;
 	padding: 10px;
 	box-shadow: 0px 0px 15px #ccc;
@@ -8,6 +13,104 @@
 .show-box {
 	padding: 20px;
 	box-shadow: 0px 0px 15px #ccc;
+}
+
+.search {
+	margin-bottom: 10px;
+}
+.submit {
+	margin-bottom: 5px;
+}
+
+#search {
+	width: 250px;
+	font-family: Helvetica;
+    font-style: normal;
+    font-size: 1.15em;
+    font-weight: bold;
+    text-decoration: inherit;
+}
+
+#search.empty {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 1.15em;
+    font-weight: bold;
+    text-decoration: inherit;
+}
+
+.nav {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 1.15em;
+    font-weight: bold;
+    text-decoration: inherit;
+}
+
+.navbar-brand {
+	font-family: Helvetica;
+    font-style: normal;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: inherit;
+}
+
+.title {
+	height: 90px;
+	overflow: hidden elipsis;
+}
+
+.nav {
+	height: 60px;
+}
+
+.navbar {
+	background-image: url(/img/nav.jpeg);
+	background-size: cover;
+}
+
+.white{
+	color: white !important;
+}
+
+.white:hover,
+.nav>li>a:focus, 
+.nav>li>a:hover{
+	color: #888;
+	text-decoration: underline;
+}
+
+.navbar-default .navbar-nav>.open>a, 
+.navbar-default .navbar-nav>.open>a:focus, 
+.navbar-default .navbar-nav>.open>a:hover {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.jumbotron {
+	color: white;	
+	font-family: Helvetica;
+    font-style: normal;
+    font-size: 4em;
+    background-image: url(/img/title.jpeg);
+    background-size: cover;
+
+}
+
+table{
+	background-color: #efefef;
+}
+
+.subscript{
+	position: relative;
+	top: 10px;
+}
+
+.rank {
+	border: none;
+}
+
+#preview {
+	max-width: 400px;
 }
 
 /**********/
@@ -169,4 +272,17 @@
 .upload-drop-zone.drop {
 	color: #222;
 	border-color: #222;
+}
+
+.btn {
+	margin:5px;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0; 
 }

@@ -5,7 +5,7 @@
 @section('header', 'Create Form')
 
 @section('content')
-	<form class="text-center" method="POST" action="{{ action('PostsController@store') }}">
+	<form class="text-center" method="POST" action="{{ action('PostsController@store') }}" enctype="multipart/form-data">
 
 		{!! csrf_field() !!}
 
@@ -47,6 +47,19 @@
 				{{ $errors->first('content') }}
 			</div>
 		@endif
+
+		<div class="form-group row">
+			<label for="image" class="col-xs-2 control-label">Upload Image:</label>
+			<div class="col-xs-10">
+				<input type="file" class="input-lg form-control" name="image" id="image" accept="image/*">
+				<div class="col-xs-5 col-xs-offset-3">
+					<img class="img-thumbnail thumbnail" id="preview" src="#" alt="Image Preview">
+				</div>
+			</div>
+		</div>
+
+
+
 		<button style="margin: 5px;" type="submit" class="pull-right btn btn-lg btn-primary">Submit</button>
 		<button style="margin: 5px;" type="reset" class="pull-right btn btn-lg btn-default">Clear</button>
 	</form>

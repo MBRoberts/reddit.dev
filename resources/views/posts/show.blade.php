@@ -2,13 +2,13 @@
 
 @section('title', $post->title)
 
-@section('header', 'Post')
+@section('header', '"' . $post->title . '"')
 
 @section('content')
 
 	<div class="row">
 		<div class="col-md-3">
-			<p class="lead">Posted By: <b> {{ $post->created_by }} </b></p>
+			<p class="lead">Posted By: <a href="{{ action('UsersController@show', $post->created_by) }}"><b>{{ $post->user->name }}</b></a></p>
 			<p>Posted {{ $post->created_at->diffForHumans() }} </p>
 		</div>
 
@@ -24,66 +24,42 @@
 				<hr>
 
 				<div>
-					<p class="pull-right">3 Comments</p>
 					<p>
-						<i class="fa fa-thumbs-o-up fa-lg"> 2</i>
-						<i class="fa fa-thumbs-o-down fa-lg"> 1</i>
+						<form method="POST" action="{{ action('PostsController@setVote') }}">
+							{!! csrf_field() !!}
+							<input type="hidden" name="vote" value="1">
+							<input type="hidden" name="post_id" value="{{ $post->id }}">
+							<button type="submit" class="rank pull-left btn-default btn-md"><i class="fa fa-thumbs-o-up fa-lg"> {{ $post->upVotes->count() }} </i></button>
+						</form>
+						<form method="POST" action="{{ action('PostsController@setVote') }}">
+							{!! csrf_field() !!}
+							<input type="hidden" name="vote" value="0">
+							<input type="hidden" name="post_id" value="{{ $post->id }}">
+							<button type="submit" class="rank btn-default btn-md"><i class="fa fa-thumbs-o-down fa-lg"> {{ $post->downVotes->count() }} </i></button>
+						</form>
 					</p>
 				</div>
 			</div>
 
 			<div class="well show-box">
 
-				<div class="text-right">
-					<a class="btn btn-success">Leave a Comment</a>
-				</div>
+				<div id="disqus_thread"></div>
 
-				<hr>
+				<script type="text/javascript">
+					var disqus_config = function () {
+						this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+						this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+					};
 
-				<div class="row">
-					<div class="col-md-12">
-						<strong>Anonymous &nbsp;&nbsp;</strong>
-						<i class="fa fa-thumbs-o-down fa-lg"></i>
-						<span class="pull-right">10 days ago</span>
-						<p>I hate Latin!</p>
-						<div class="pull-right">
-							<i class="fa fa-thumbs-o-up"> 2</i>
-							<i class="fa fa-thumbs-o-down"> 1</i>
-						</div>
-					</div>
-				</div>
+					(function() { // DON'T EDIT BELOW THIS LINE
+						var d = document, s = d.createElement('script');
+						s.src = '//reddit-dev-1.disqus.com/embed.js';
+						s.setAttribute('data-timestamp', +new Date());
+						(d.head || d.body).appendChild(s);
+					})();
 
-				<hr>
+				</script>
 
-				<div class="row">
-					<div class="col-md-12">
-						<strong>Anonymous &nbsp;&nbsp;</strong>
-						<i class="fa fa-thumbs-o-up fa-lg"></i>
-						
-						<span class="pull-right">12 days ago</span>
-						<p>I've alredy ordered another one!</p>
-						<div class="pull-right">
-							<i class="fa fa-thumbs-o-up"> 2</i>
-							<i class="fa fa-thumbs-o-down"> 1</i>
-						</div>
-					</div>
-				</div>
-
-				<hr>
-
-				<div class="row">
-					<div class="col-md-12">
-						<strong>Anonymous &nbsp;&nbsp;</strong>
-						<i class="fa fa-thumbs-o-up fa-lg"></i>
-						
-						<span class="pull-right">15 days ago</span>
-						<p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-						<div class="pull-right">
-							<i class="fa fa-thumbs-o-up"> 2</i>
-							<i class="fa fa-thumbs-o-down"> 1</i>
-						</div>
-					</div>
-				</div>
 			</div> <!-- /.well box -->
 		</div> <!-- /.col-md-9 -->
 	</div> <!-- /.row -->

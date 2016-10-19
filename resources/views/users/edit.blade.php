@@ -68,7 +68,7 @@
 	<form class="text-center" method="POST" action="{{ action('UsersController@destroy', $user->id) }}">
 		{!! csrf_field() !!}
 		{!! method_field('DELETE')!!}
-		<button style="margin:5px;" class="btn btn-danger btn-lg pull-right" type="submit">Delete User</button>
+		<button style="margin:5px;" class="btn btn-danger btn-lg btn-delete pull-right" type="submit">Delete User</button>
 	</form>
 </div>
 @stop

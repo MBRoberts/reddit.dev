@@ -14,11 +14,16 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', 'PostsController@index');
+Route::get('/', function() {
+	return redirect()->action('PostsController@index');
+});
+
+Route::post('posts/vote', 'PostsController@setVote');
 
 Route::resource('posts','PostsController');
 
 Route::resource('users', 'UsersController', ['except' => ['create', 'store']]);
+
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

@@ -20,9 +20,10 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['users'] = User::paginate(10);
+
+        $data['users'] = ($request->has('search')) ? User::search($request->search)->paginate(6) :  User::paginate(20);
         return view('users.index')->with($data);
     }
 
@@ -35,6 +36,8 @@ class UsersController extends Controller
     public function show($id)
     {
         $data['user'] = User::findOrFail($id);
+        $data['posts'] = $data['user']->posts()->paginate(3);
+
         return view('users.show')->with($data);
     }
 
@@ -85,6 +88,6 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->action('UsersController@index');
+        return redirect()->action('PostsController@index');
     }
 }
