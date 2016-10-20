@@ -26,7 +26,7 @@
 		<div class="form-group row">
 			<label for="url" class="col-xs-2 col-form-label col-form-label-lg">URL:</label>
 			<div class="col-xs-10">
-				<input class="input-lg form-control" type="text" name="url" value="http://{{ (old('url') == null) ? $post->url : old('url') }}">
+				<input class="input-lg form-control" type="text" name="url" value="{{ (old('url') == null) ? $post->url : old('url') }}">
 			</div>
 		</div>
 
@@ -39,7 +39,8 @@
 		<div class="form-group row">
 			<label for="content" class="col-xs-2 col-form-label col-form-label-lg">Content:</label>
 			<div class="col-xs-10">
-				<textarea class="input-lg form-control" name="content" rows="5" cols="40">{{ (old('content') == null) ? $post->content : old('content') }}</textarea>
+				<textarea class="input-lg form-control" name="content" rows="5" cols="40">{{ $post->content }}</textarea>
+				
 			</div>
 		</div>
 

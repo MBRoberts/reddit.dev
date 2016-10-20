@@ -12,6 +12,11 @@
 		{{-- Bootstrap Core CSS CDN--}}
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+		{{-- Simple MDE Markdown editor --}}
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+		{{-- Simple MDE Markdown editor --}}
+		<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
 		{{-- Footer custom css --}}
 		<link rel="stylesheet" type="text/css" href="/css/footer.css">
 		
@@ -60,6 +65,7 @@
 		<script type="text/javascript" src="/js/reddit.js"></script>
 		{{-- disqus --}}
 		<script id="dsq-count-scr" src="//reddit-dev-1.disqus.com/count.js" async></script>
+
 
 	</body>
 </html>

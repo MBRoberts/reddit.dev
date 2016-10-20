@@ -43,4 +43,8 @@ class Post extends BaseModel
         return $this->votes()->where('vote', '=', 0);
     }
 
+    public function ownedBy($user)
+    {
+        return ($user->id == $this->created_by);
+    }
 }

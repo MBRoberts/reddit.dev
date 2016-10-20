@@ -19,7 +19,7 @@
 					<h4 class="pull-right"><b>"{{ $post->title }}"</b></h4>
 					<h4><a href="{{ $post->url }}">View Project</a></h4>
 					<hr>
-					<p> {{ $post->content }} </p>
+					<p> {!! Markdown::convertToHtml($post->content) !!} </p>
 				</div>
 				<hr>
 
@@ -57,7 +57,6 @@
 						s.setAttribute('data-timestamp', +new Date());
 						(d.head || d.body).appendChild(s);
 					})();
-
 				</script>
 
 			</div> <!-- /.well box -->

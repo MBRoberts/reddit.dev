@@ -9,8 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Vote;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Illuminate\Support\Facades\Log;
+
+
 
 class PostsController extends Controller
 {
@@ -64,6 +65,7 @@ class PostsController extends Controller
         $post->url = $request->input('url');
         $post->content = $request->input('content');
         $post->save();
+        
         if (!empty($request->file('image'))) {
             if ($request->file('image')->isValid()) {
 
@@ -102,10 +104,16 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $data['post'] = Post::findOrFail($id);
+
+        if(!$data['post']->ownedBy($request->user())) {
+            $request->session()->flash('ERROR_MESSAGE', 'You do not have permission');
+            return redirect()->action('PostsController@index');
+        } 
         return view('posts.edit')->with($data);
+        
     }
 
     /**
@@ -122,9 +130,15 @@ class PostsController extends Controller
         $request->session()->forget('ERROR_MESSAGE');
 
         $post = Post::findOrFail($id);
-        $post->title = $request->title;
-        $post->url = $request->url;
-        $post->content = $request->content;
+
+        if(!$post->ownedBy($request->user())) {
+            $request->session()->flash('ERROR_MESSAGE', 'You do not have permission');
+            return redirect()->action('PostsController@index');
+        } 
+
+        $post->title = $request->get('title');
+        $post->url = $request->get('url');
+        $post->content = $request->get('content');
         $post->save();
         Log::info('Updated Post: ' . $post);
 
@@ -143,6 +157,7 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
         $vote = Vote::where('post_id', '=', $id);
+
         $vote->delete();
         $post->delete();
         return back();

@@ -113,6 +113,11 @@ table{
 	max-width: 400px;
 }
 
+.img-preview {
+	position: relative;
+	bottom: 45px;
+}
+
 /**********/
 /* Footer */
 /**********/
