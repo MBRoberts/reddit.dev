@@ -15,12 +15,12 @@
 		@foreach($posts as $post) 
 			<div class="col-sm-5 col-lg-4 col-md-3">
 				<div class="thumbnail box">
-					<img src="{{ (isset($post->image)) ? $post->image : "http://placehold.it/350x150" }}" />
+					<img class="index-pic" src="{{ ($post->image) ? $post->image : 'http://www.engraversnetwork.com/files/placeholder.jpg' }}" />
 					<div class="title"><h2>"{{ substr($post->title, 0, 40) . "..." }}"</h2></div>
 					<h5>Posted By: {{ $post->user->name }}</h5>
 					<p>{{$post->created_at->diffForHumans()}}</p>
 					<hr>
-					<div class="caption">
+					<div class="caption index-caption">
 						<p> {{ substr($post->content, 0, 215) . '...' }} </p>
 					</div>
 					<hr>

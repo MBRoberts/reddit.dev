@@ -25,7 +25,7 @@ class Post extends BaseModel
                     ->where('posts.title', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('posts.content', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('users.name', 'LIKE', '%' . $searchTerm . '%')
-                    ->orderBy('posts.created_at');
+                    ->orderBy('posts.created_at', 'desc');
     }
 
     public function votes()

@@ -6,6 +6,7 @@
 	<head>
 
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<title>@yield('title')</title>
 
@@ -22,6 +23,9 @@
 		
 		{{-- Font-awesome CDN--}}
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<!-- Favicon -->
+		<link rel="icon" href="/img/favicon.ico">
 
 		<style type="text/css">
 			body {
@@ -54,8 +58,6 @@
 			@yield('content')
 
 		</div>
-		
-		@include('partials.footer')
 
 		{{-- Jquery.js CDN --}}
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>

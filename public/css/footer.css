@@ -118,6 +118,15 @@ table{
 	bottom: 45px;
 }
 
+.index-pic {
+	max-width: 338px;
+	max-height: 160px;
+}
+
+.index-caption {
+	height: 110px;
+}
+
 /**********/
 /* Footer */
 /**********/
